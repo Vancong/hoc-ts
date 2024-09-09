@@ -8,9 +8,8 @@ connectDtb();
 const app: Express = express();
 const port: number = 3000;
 
-app.get("/tasks", (req: Request, res: Response) => {
-    res.send("danh sach cong viec ");
-});
+import { RouteApi } from "./router/index.route";
+RouteApi(app);
 
 app.listen(port, () => {
     console.log(`dang chay cong ${port}`);

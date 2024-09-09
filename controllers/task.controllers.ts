@@ -3,7 +3,34 @@ import { Request, Response } from "express";
 
 // [GET] /tasks
 export const index = async (req: Request, res: Response) => {
-    const tasks = await TaskDtb.find();
+    const find = {
+        deleted: false,
+    };
+    // const find = {
+    //     $or: [
+    //         {
+    //             createdBy: req.user.id,
+    //         },
+    //         {
+    //             listUser: req.user.id,
+    //         },
+    //     ],
+    //     deleted: false,
+    // };
+
+    //sapxep
+    const sortKey = `${req.query.sortKey}`;
+    const sortValue = req.query.sortValue;
+    const sort = {};
+    if (sortKey && sortValue) {
+        sort[sortKey] = sortValue;
+    }
+    //end sap xep theo tieu chi
+    const status = req.query.status;
+    if (status) {
+        find["status"] = status;
+    }
+    const tasks = await TaskDtb.find(find).sort(sort);
     res.json(tasks);
 };
 

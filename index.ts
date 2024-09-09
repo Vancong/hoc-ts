@@ -1,4 +1,4 @@
-import express, { Express, Request, Response } from "express";
+import express, { Express } from "express";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -6,7 +6,7 @@ import { connectDtb } from "./config/database.config";
 connectDtb();
 
 const app: Express = express();
-const port: number = 3000;
+const port: number = 4000;
 
 import { RouteApi } from "./router/index.route";
 RouteApi(app);

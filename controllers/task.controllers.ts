@@ -18,6 +18,13 @@ export const index = async (req: Request, res: Response) => {
     //     deleted: false,
     // };
 
+    let page: number = 2;
+    let limit: number = 2;
+    if (req.query.page) {
+        page = parseInt(`${req.query.page}`);
+    }
+    const skip: number = (page - 1) * limit;
+
     //sapxep
     const sortKey = `${req.query.sortKey}`;
     const sortValue = req.query.sortValue;
@@ -30,7 +37,8 @@ export const index = async (req: Request, res: Response) => {
     if (status) {
         find["status"] = status;
     }
-    const tasks = await TaskDtb.find(find).sort(sort);
+
+    const tasks = await TaskDtb.find(find).skip(skip).limit(limit).sort(sort);
     res.json(tasks);
 };
 

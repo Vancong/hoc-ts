@@ -82,3 +82,47 @@ export const changeStatus = async (req: Request, res: Response) => {
         });
     } catch (error) {}
 };
+
+// [POST] /tasks/create
+export const createPost = async (req: Request, res: Response) => {
+    const task = new TaskDtb(req.body);
+    task.save();
+    res.json({
+        code: 200,
+        message: "Them moi thanh cong ",
+    });
+};
+
+// [PATCH] /tasks/edit/:id
+export const editPatch = async (req: Request, res: Response) => {
+    try {
+        const id: string = req.params.id;
+        await TaskDtb.updateOne(
+            {
+                _id: id,
+            },
+            req.body
+        );
+        res.json({
+            code: 200,
+            message: "update thanh cong",
+        });
+    } catch (error) {}
+};
+
+// [PATCH] /tasks/deleted/:id
+export const deletedPatch = async (req: Request, res: Response) => {
+    const idf: string[] = req.body.idf;
+    await TaskDtb.updateMany(
+        {
+            _id: { $in: idf },
+        },
+        {
+            deleted: true,
+        }
+    );
+    res.json({
+        code: 200,
+        message: "xoa thanh cong ",
+    });
+};

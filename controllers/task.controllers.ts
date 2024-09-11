@@ -62,3 +62,23 @@ export const detail = async (req: Request, res: Response) => {
     });
     res.json(task);
 };
+
+// [PATCH] /tasks/change-status
+export const changeStatus = async (req: Request, res: Response) => {
+    try {
+        const status: string = req.body.status;
+        const idf: string[] = req.body.idf;
+        await TaskDtb.updateMany(
+            {
+                _id: { $in: idf },
+            },
+            {
+                status: status,
+            }
+        );
+        res.json({
+            code: 200,
+            message: "Cập nhật thành công",
+        });
+    } catch (error) {}
+};

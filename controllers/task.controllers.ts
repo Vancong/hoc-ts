@@ -18,12 +18,24 @@ export const index = async (req: Request, res: Response) => {
     //     deleted: false,
     // };
 
+    // phan trang
     let page: number = 2;
     let limit: number = 2;
     if (req.query.page) {
         page = parseInt(`${req.query.page}`);
     }
     const skip: number = (page - 1) * limit;
+    //end phan trang
+
+    //tim kiem
+    if (req.query.keyword) {
+        const regex = new RegExp(`${req.query.keyword}`, "i");
+        find["title"] = regex;
+    }
+
+    //
+
+    //end tim kiem
 
     //sapxep
     const sortKey = `${req.query.sortKey}`;
